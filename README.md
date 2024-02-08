@@ -124,6 +124,8 @@ probe.save("concept.safetensors")
 
 ## Running the Experiments
 
+In order to reproduce the experiments from the paper, the following steps are required.
+
 ### Setup
 
 Clone the repository:
