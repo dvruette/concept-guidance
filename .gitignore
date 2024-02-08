@@ -1,0 +1,6 @@
+.venv*
+outputs
+runs
+__pycache__
+.env
+*.egg-info

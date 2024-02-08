@@ -1,0 +1,22 @@
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "concept-guidance"
+description = "A package for concept guidance in LLMs (code for the paper \"A Language Model's Guide Trough Latent Space\")"
+authors = [
+    { name = "Dimitri von Rütte" },
+    { name = "Sotiris Anagnostidis" },
+    { name = "Gregor Bachmann" },
+    { name = "Thomas Hofmann" },
+]
+readme = "README.md"
+dynamic = ["version"]
+
+[tool.setuptools]
+packages = ["concept_guidance"]
+
+[tool.setuptools.dynamic]
+version = {attr = "concept_guidance.__version__"}

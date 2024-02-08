@@ -1,0 +1,16 @@
+scikit-learn
+pandas
+numpy
+tensorflow
+transformers
+torch
+tqdm
+matplotlib
+baukit @ git+https://github.com/davidbau/baukit.git
+datasets
+accelerate
+truthfulqa @ git+https://github.com/sylinrl/TruthfulQA.git
+openai
+t5
+vllm
+safetensors
