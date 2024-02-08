@@ -13,7 +13,7 @@ logging.getLogger("transformers").setLevel(logging.ERROR)
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--model", type=str, default="meta-llama/Llama-2-7b-chat-hf", help="Hugging Face model name")
-    parser.add_argument("--concept", type=str, default="concepts/Llama-2-7b-chat-hf/humor.safetensors", help="Path to trained concept vector")
+    parser.add_argument("--concept", type=str, default="trained_concepts/Llama-2-7b-chat-hf/humor.safetensors", help="Path to trained concept vector")
     parser.add_argument("--guidance_scale", type=float, default=32.0)
     parser.add_argument("--guidance_layers", type=int, nargs="+", default=range(8, 32))
     args = parser.parse_args()
