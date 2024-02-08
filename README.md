@@ -47,6 +47,9 @@ print(output[0]["generated_text"])
 unpatch_model(model)
 ```
 
+We provide the best trained concept vector found in our experiments for each model and concept in `trained_concepts/{model}/{concept}.safetensors`.
+Please refer to the paper for the details on what probes and settings were used to train these vectors.
+
 A complete example that includes streaming is given in `examples/streaming.py`.
 
 ### Training Concept Vectors
