@@ -83,7 +83,7 @@ It's also possible to use custom datasets.
 Samples in the dataset need to have the following keys:
 - `prompt`: the user prompt
 - `completion`: the model completion
-- `label`: whether the concept is present (`1`) or absent (`0`)
+- `label`: whether the concept is present (1) or absent (0)
 - (optional) `conversation_history`: previous messages in the conversation (messages must have a `role` and `content` key)
 
 Example:
