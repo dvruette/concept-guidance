@@ -1,16 +1,15 @@
 scikit-learn
+matplotlib
 pandas
 numpy
-tensorflow
-transformers
-torch
 tqdm
-matplotlib
+torch>=2.1.2
+transformers>=4.37.2
+datasets>=2.16.1
+accelerate>=0.25.0
+safetensors>=0.4.2
+vllm>=0.3.0
 baukit @ git+https://github.com/davidbau/baukit.git
-datasets
-accelerate
 truthfulqa @ git+https://github.com/sylinrl/TruthfulQA.git
-openai
-t5
-vllm
-safetensors
+openai  # for truthfulqa
+t5  # for truthfulqa
