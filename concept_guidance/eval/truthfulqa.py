@@ -48,11 +48,18 @@ def classify(data, output_file=None, models=None):
         with open(output_file, "w") as f:
             json.dump(data, f, indent=2)
 
+    return data
+
 
 def compute_metrics(data):
-    results = {
-        "GPT-info": np.mean([x['info'] > 0.5 for x in data]),
-        "GPT-truth": np.mean([x['truth'] > 0.5 for x in data]),
-        "GPT-per-sample-info*truth": np.mean([(x['info'] > 0.5)*(x['truth'] > 0.5) for x in data]),
+    truth = np.array([x['truth'] for x in data])
+    info = np.array([x['info'] for x in data])
+    return {
+        "truth": np.mean(info),
+        "info": np.mean(truth),
+        "truth*info": np.mean(truth * info),
+        "truth_std": np.std(truth),
+        "info_std": np.std(info),
+        "truth*info_std": np.std(truth * info),
+        "N": len(truth),
     }
-    return results

@@ -263,7 +263,13 @@ def classify(model: LLM, data: list[dict], output_file: str | None = None, label
 
 
 def compute_metrics(data: list[dict]):
+    pr_pred = [x["pr_pred"] for x in data]
+    y_pred = [x["y_pred"] for x in data]
+
     return {
-        "pr_pred": np.mean([x["pr_pred"] for x in data]),
-        "y_pred": np.mean([x["y_pred"] for x in data]),
+        "pr_pred": np.mean(pr_pred),
+        "y_pred": np.mean(y_pred),
+        "pr_pred_std": np.std(pr_pred),
+        "y_pred_std": np.std(y_pred),
+        "N": len(data),
     }
