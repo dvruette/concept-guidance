@@ -158,7 +158,8 @@ Example execution:
 ```bash
 python scripts/train.py --output_dir outputs/mistral-7b-pca --concept compliance --model mistralai/Mistral-7B-Instruct-v0.1 --probe pca
 
-python scripts/generate.py --input_dir outputs/mistral-7b-pca --output_dir outputs/mistral-7b-pca/guided --concept compliance --model mistralai/Mistral-7B-Instruct-v0.1 --guidance_scale -128 -64 -32 -16 0 16 32 64 128 --guidance_top_k 16
+# generate 19 (guidance scales) x 64 (prompts) guided samples
+python scripts/generate.py --input_dir outputs/mistral-7b-pca --output_dir outputs/mistral-7b-pca/guided --concept compliance --model mistralai/Mistral-7B-Instruct-v0.1 --guidance_scale -256 -192 -128 -96 -64 -32 -16 -8 -4 0 4 8 16 32 64 96 128 192 256 --guidance_top_k 16
 
 python scripts/classify.py --input_dir outputs/mistral-7b-pca/guided --concept compliance
 
