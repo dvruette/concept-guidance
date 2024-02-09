@@ -75,13 +75,12 @@ def compute_pnes(xs, effects, ppls, ppl_cutoff=2e3):
         y_max = 0
 
     pnes = y_max - y_min
-
-    min_idx = np.argmin(xs * (ppls < 10))
-    max_idx = np.argmax(xs * (ppls < 10))
-    alpha_min = xs[min_idx]
-    alpha_max = xs[max_idx]
-    p_low = ys[min_idx]
-    p_high = ys[max_idx]
+    
+    low_ppl_ids = np.where(ppls < 10)
+    alpha_min = xs[low_ppl_ids].min()
+    alpha_max = xs[low_ppl_ids].max()
+    p_low = effects[low_ppl_ids].min()
+    p_high = effects[low_ppl_ids].max()
 
     return {
         "pne": pnes,
