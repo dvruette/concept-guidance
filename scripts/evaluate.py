@@ -31,11 +31,11 @@ def parse_args():
     return args
 
 
-def ppl_func(x, b, d):
-    return b * np.abs(x)**2 + d
+def ppl_func(x, b):
+    return b * np.abs(x)**2
 
-def pne_func(x, a, c, b, d):
-    return (np.tanh(a*x) + c) / np.exp(b * np.abs(x)**2 + d)
+def pne_func(x, a, c, b):
+    return (np.tanh(a*x) + c) / np.exp(b * np.abs(x)**2)
 
 def compute_pnes(xs, effects, ppls, ppl_cutoff=2e3):
     baseline_idx = np.argmin(np.abs(xs))
@@ -45,37 +45,35 @@ def compute_pnes(xs, effects, ppls, ppl_cutoff=2e3):
 
     ppl_ids = np.where(ppls < ppl_cutoff)
     ppl_xs = xs[ppl_ids]
-    ppl_ys = ppls[ppl_ids]
-    p0 = [0.01]
-    fn = functools.partial(ppl_func, d=np.log(base_ppl))
+    ppl_ys = ppls[ppl_ids] / base_ppl
+    p0 = [0.05]
+    fn = functools.partial(ppl_func)
     popt, pcov = curve_fit(fn, ppl_xs, np.log(ppl_ys), p0=p0, maxfev=20000)
     b = popt[0]
 
-    p0 = [1, 0]
-    fn = functools.partial(pne_func, b=b, d=base_value)
+    p0 = [0, 0]
+    fn = functools.partial(pne_func, b=b)
     popt, pcov = curve_fit(fn, xs, ys, p0=p0, maxfev=20000)
     a, c = popt
-    d = base_value
 
     residuals = ys - fn(xs, *popt)
     rss = np.sum(residuals**2)
     ss_tot = np.sum((ys - np.mean(ys))**2)
     if ss_tot > 0:
         r_squared = 1 - (rss / ss_tot)
+        xs_ = np.linspace(xs.min(), xs.max(), 200)
+        ys_ = pne_func(xs_, a=a, b=b, c=c)
+        x_min = xs_[np.argmin(ys_)]
+        x_max = xs_[np.argmax(ys_)]
+        y_min = ys_.min()
+        y_max = ys_.max()
     else:
         r_squared = float("nan")
-        a = 0
-        b = 0
-        c = 0
-        d = 0
+        x_min = float("nan")
+        x_max = float("nan")
+        y_min = 0
+        y_max = 0
 
-    xs_ = np.linspace(xs.min(), xs.max(), 200)
-    ys_ = pne_func(xs_, a=a, b=b, c=c, d=d)
-
-    x_min = xs_[np.argmin(ys_)]
-    x_max = xs_[np.argmax(ys_)]
-    y_min = ys_.min()
-    y_max = ys_.max()
     pnes = y_max - y_min
 
     min_idx = np.argmin(xs * (ppls < 10))
@@ -96,7 +94,7 @@ def compute_pnes(xs, effects, ppls, ppl_cutoff=2e3):
         "alpha_max": alpha_max,
         "p_low": p_low,
         "p_high": p_high,
-        "params": (a, c, b, d),
+        "params": (a, c, b),
     }
 
 
@@ -185,9 +183,8 @@ def main(args):
         else:
             output_file = output_path / "results.json"
 
-        fig, ax = plot_pne(xs, ys, ppls, params=metrics["params"], label="$r^2 = {:.2f}$".format(metrics["r_squared"]))
+        fig, ax = plot_pne(xs, ys, ppls, params=metrics["params"], label="$r^2 = {:.3f}$".format(metrics["r_squared"]))
         fig.savefig(output_path / f"pne_topk={top_k}.png")
-
 
         if output_file.exists():
             with open(output_file, "r") as f:
