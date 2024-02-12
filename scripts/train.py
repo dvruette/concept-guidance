@@ -28,7 +28,7 @@ CONCEPT_MAP = {
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--output_dir", type=str, required=True)
+    parser.add_argument("--output_dir", type=str, default="outputs")
     parser.add_argument("--model", type=str, default="mistralai/Mistral-7B-Instruct-v0.1")
     parser.add_argument("--concept", type=str, default="compliance", choices=CONCEPT_MAP.keys())
     parser.add_argument("--probe", type=str, default="dim", choices=["dim", "logistic", "pca"])
@@ -37,6 +37,7 @@ def parse_args():
     parser.add_argument("--do_few_shot", action=argparse.BooleanOptionalAction, default=False)
     parser.add_argument("--ctx_len", type=int, default=16)
     parser.add_argument("--num_samples", type=int, default=512)
+    parser.add_argument("--max_num_generate", type=int, default=64)
     parser.add_argument("--device", type=str, default="auto")
     parser.add_argument("--dtype", type=str, default="float16")
     parser.add_argument("--use_flash", action=argparse.BooleanOptionalAction, default=False)
@@ -96,6 +97,7 @@ def main(args):
     train_messages, val_messages, _, num_train = get_data(
         dataset=dataset,
         num_samples=args.num_samples,
+        max_num_generate=args.max_num_generate,
         do_few_shot=do_few_shot,
         label_key=label_key,
         cache_dir=args.cache_dir,

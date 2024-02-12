@@ -154,12 +154,12 @@ There are four scripts to run the experiments:
 - `scripts/classify.py`: Classify guided generations to measure concept adherence
 - `scripts/evaluate.py`: Evaluate the classified generations and compute the relevant metrics
 
-Example execution:
+Example execution (Mistral-7B, PCA probe on compliance):
 ```bash
-python scripts/train.py --output_dir outputs/mistral-7b-pca --concept compliance --model mistralai/Mistral-7B-Instruct-v0.1 --probe pca
+python scripts/train.py --output_dir outputs/mistral-7b-pca --concept compliance --model mistralai/Mistral-7B-v0.1 --do_few_shot --probe pca
 
-# generate 19 (guidance scales) x 64 (prompts) guided samples
-python scripts/generate.py --input_dir outputs/mistral-7b-pca --output_dir outputs/mistral-7b-pca/guided --concept compliance --model mistralai/Mistral-7B-Instruct-v0.1 --guidance_scale -256 -192 -128 -96 -64 -32 -16 -8 -4 0 4 8 16 32 64 96 128 192 256 --guidance_top_k 16
+# generate 17 (guidance scales) x 64 (prompts) guided samples
+python scripts/generate.py --input_dir outputs/mistral-7b-pca --output_dir outputs/mistral-7b-pca/guided --concept compliance --model mistralai/Mistral-7B-v0.1 --do_few_shot --no-is_chat_model --guidance_scale -256 -192 -128 -96 -64 -32 -16 -8 0 8 16 32 64 96 128 192 256 --guidance_top_k 16
 
 python scripts/classify.py --input_dir outputs/mistral-7b-pca/guided --concept compliance
 

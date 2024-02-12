@@ -32,17 +32,17 @@ def get_data(
     cache_dir: str | None = None,
 ):
     if dataset == "truthfulqa":
-        messages = get_truthfulqa_messages(max_messages=num_samples + 2 * max_num_generate, do_few_shot=do_few_shot, cache_dir=cache_dir)
+        messages = get_truthfulqa_messages(max_messages=num_samples + 2*max_num_generate, do_few_shot=do_few_shot, cache_dir=cache_dir)
     elif dataset == "open-assistant":
-        messages = get_open_assistant_messages(max_messages=num_samples + 2 * max_num_generate, label_key=label_key, do_few_shot=do_few_shot, cache_dir=cache_dir)
+        messages = get_open_assistant_messages(max_messages=num_samples + 2*max_num_generate, label_key=label_key, do_few_shot=do_few_shot, cache_dir=cache_dir)
     elif dataset == "toxic-completions":
-        messages = get_toxic_completions_messages(max_messages=num_samples + 2 * max_num_generate, do_few_shot=do_few_shot, cache_dir=cache_dir)
+        messages = get_toxic_completions_messages(max_messages=num_samples + 2*max_num_generate, do_few_shot=do_few_shot, cache_dir=cache_dir)
     else:
         raise ValueError(f"Invalid dataset: {dataset}")
 
     prompt_counts = Counter([message["prompt"] for message in messages])
     all_prompts = list(prompt_counts.keys())
-    random.shuffle(all_prompts)
+    random.Random(0).shuffle(all_prompts)
 
     num_train = int(0.8*num_samples)
     num_val = num_samples - num_train
