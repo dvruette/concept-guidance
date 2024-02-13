@@ -12,7 +12,7 @@ This repository contains code to train and use concept vectors, as well as scrip
 
 ---
 
-<img src="static/concept_guidance_example_2.jpeg" alt="Example of humor guidance" width="860"/>
+<img src="static/concept_guidance_example.jpeg" alt="Example of humor guidance" width="860"/>
 
 
 ## Installation
