@@ -96,6 +96,8 @@ def patch_model(
     device = next(model.parameters()).device
     vectors = vectors.to(device, non_blocking=True)
 
+    unpatch_model(model)
+
     if representation in ("pre-attn",):
         for idx, layer in enumerate(model.model.layers):
             if guidance_layers is not None and (idx,) not in guidance_layers:
