@@ -17,13 +17,13 @@ pip install git+https://github.com/dvruette/concept-guidance.git
 
 ### Running the Demo
 
-To run the demo on your local machine, you can simply start it as follows:
+To run the Gradio demo on your local machine, you can simply start it as follows:
 ```bash
 # use the optional `--share` argument to create a public link
 python demo/main.py
 ```
 
-Note: The demo requires the `gradio` package to be installed.
+Note: The demo requires additional dependencies. See `demo/requirements.txt` for the full list.
 
 
 ### Concept-Guided Generation
