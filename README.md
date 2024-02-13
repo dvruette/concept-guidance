@@ -1,12 +1,19 @@
 # Concept Guidance
 
-Code accompanying the paper "A Language Model's Guide Through Latent Space".
+Concept guidance allows you to customize the behavior of LLMs using only a few demonstrations of a concept.
+For example, it's possible to add personality to a model or to make it more reliable by guiding it to be more humorous, creative, or truthful, or to produce higher-quality responses.
+
+This repository contains code to train and use concept vectors, as well as scripts to reproduce the experiments from the paper "A Language Model's Guide Through Latent Space".
+
 
 📜 Paper: [COMING SOON]
 
 🛤️ Demo: https://huggingface.co/spaces/dvruette/concept-guidance
 
 ---
+
+<img src="static/concept_guidance_example_2.jpeg" alt="Example of humor guidance" width="860"/>
+
 
 ## Installation
 
