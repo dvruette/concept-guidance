@@ -141,13 +141,14 @@ class ConceptGuidanceUI:
         default_model = model_names[0]
         default_config = MODEL_CONFIGS[default_model]
         default_concepts = default_config["concepts"]
+        default_concept = default_config["default_concept"]
 
         saved_input = gr.State("")
 
         with gr.Row(elem_id="concept-guidance-container"):
             with gr.Column(scale=1, min_width=256):
                 model_dropdown = gr.Dropdown(model_names, value=default_model, label="Model")
-                concept_dropdown = gr.Dropdown(default_concepts, value=default_concepts[0], label="Concept")
+                concept_dropdown = gr.Dropdown(default_concepts, value=default_concept, label="Concept")
                 guidance_scale = gr.Slider(*default_config["guidance_interval"], value=default_config["default_guidance_scale"], label="Guidance Scale")
                 min_guidance_layer = gr.Slider(1.0, 32.0, value=16.0, step=1.0, label="First Guidance Layer")
                 max_guidance_layer = gr.Slider(1.0, 32.0, value=32.0, step=1.0, label="Last Guidance Layer")
