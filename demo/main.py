@@ -15,10 +15,15 @@ logger = logging.getLogger(__name__)
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 # device = "cpu"
 
+# comment in/out the models you want to use
+# RAM requirements: ~16GB x #models (+ ~4GB overhead)
+# VRAM requirements: ~16GB
+# if using int8: ~8GB VRAM x #models, low RAM requirements
 MODEL_CONFIGS = {
     "Llama-2-7b-chat-hf": {
         "identifier": "meta-llama/Llama-2-7b-chat-hf",
         "dtype": torch.float16 if device.type == "cuda" else torch.float32,
+        "load_in_8bit": False,
         "guidance_interval": [-16.0, 16.0],
         "default_guidance_scale": 8.0,
         "min_guidance_layer": 16,
@@ -29,6 +34,7 @@ MODEL_CONFIGS = {
     "Mistral-7B-Instruct-v0.1": {
         "identifier": "mistralai/Mistral-7B-Instruct-v0.1",
         "dtype": torch.bfloat16 if device.type == "cuda" else torch.float32,
+        "load_in_8bit": False,
         "guidance_interval": [-128.0, 128.0],
         "default_guidance_scale": 48.0,
         "min_guidance_layer": 8,
@@ -43,7 +49,7 @@ def load_concept_vectors(model, concepts):
 
 def load_model(model_name):
     config = MODEL_CONFIGS[model_name]
-    model = AutoModelForCausalLM.from_pretrained(config["identifier"], torch_dtype=config["dtype"])
+    model = AutoModelForCausalLM.from_pretrained(config["identifier"], torch_dtype=config["dtype"], load_in_8bit=config["load_in_8bit"])
     tokenizer = AutoTokenizer.from_pretrained(config["identifier"])
     if tokenizer.chat_template is None:
         tokenizer.chat_template = DEFAULT_CHAT_TEMPLATE
@@ -99,16 +105,20 @@ def generate_completion(
     # move all other models to CPU
     for name, (model, _) in MODELS.items():
         if name != model_name:
-            model.to("cpu")
+            config = MODEL_CONFIGS[name]
+            if not config["load_in_8bit"]:
+                model.to("cpu")
     torch.cuda.empty_cache()
     # load the model
+    config = MODEL_CONFIGS[model_name]
     model, tokenizer = MODELS[model_name]
-    model = model.to(device, non_blocking=True)
+    if not config["load_in_8bit"]:
+        model.to(device, non_blocking=True)
 
     concept_vector = CONCEPT_VECTORS[model_name][concept]
     guidance_layers = list(range(int(min_guidance_layer) - 1, int(max_guidance_layer)))
     patch_model(model, concept_vector, guidance_scale=guidance_scale, guidance_layers=guidance_layers)
-    pipe = pipeline("conversational", model=model, tokenizer=tokenizer, device=device)
+    pipe = pipeline("conversational", model=model, tokenizer=tokenizer, device=(device if not config["load_in_8bit"] else None))
     
     conversation = history_to_conversation(history)
     streamer = TextIteratorStreamer(tokenizer, skip_prompt=True, skip_special_tokens=True)
