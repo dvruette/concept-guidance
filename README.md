@@ -15,6 +15,17 @@ pip install git+https://github.com/dvruette/concept-guidance.git
 
 ## Usage
 
+### Running the Demo
+
+To run the demo on your local machine, you can simply start it as follows:
+```bash
+# use the optional `--share` argument to create a public link
+python demo/main.py
+```
+
+Note: The demo requires the `gradio` package to be installed.
+
+
 ### Concept-Guided Generation
 
 To use the concept vectors for concept-guided generation, we patch the model with the learned concept vectors.
