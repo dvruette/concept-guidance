@@ -1,0 +1,6 @@
+torch>=2.1.2
+transformers>=4.37.2
+datasets>=2.16.1
+accelerate>=0.25.0
+safetensors>=0.4.2
+concept-guidance @ git+https://github.com/dvruette/concept-guidance.git
