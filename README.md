@@ -2,9 +2,9 @@
 
 Code accompanying the paper "A Language Model's Guide Through Latent Space".
 
-Paper: [COMING SOON]
+📜 Paper: [COMING SOON]
 
-Demo: [COMING SOON]
+🛤️ Demo: https://huggingface.co/spaces/dvruette/concept-guidance
 
 
 ## Installation
