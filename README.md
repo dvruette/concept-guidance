@@ -6,7 +6,7 @@ For example, it's possible to add personality to a model or to make it more reli
 This repository contains code to train and use concept vectors, as well as scripts to reproduce the experiments from the paper "A Language Model's Guide Through Latent Space".
 
 
-📜 Paper: [COMING SOON]
+📜 Paper: https://arxiv.org/abs/2402.14433
 
 🛤️ Demo: https://huggingface.co/spaces/dvruette/concept-guidance
 
